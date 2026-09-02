@@ -7,9 +7,7 @@ Custom financial models built to help investors analyze their investments.
 The `main.py` files in this repo aren't standalone Python scripts. They are written in the model DSL used by [discountingcashflows.com](https://discountingcashflows.com/)'s
 in-browser model editor, which injects objects like `model`, `data` and `assumptions` at runtime and pulls financial data from providers such as [Financial Modeling Prep](https://financialmodelingprep.com/).
 
-To try a model:
-
-1. Go to [discountingcashflows.com](https://discountingcashflows.com/) and open the model editor for a ticker.
+1. Create a free account at [discountingcashflows.com](https://discountingcashflows.com/) and open the model editor for a ticker.
 2. Copy the contents of a `main.py` from one of the folders below.
 3. Paste it into the editor and run it against any ticker.
 
