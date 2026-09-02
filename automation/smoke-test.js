@@ -18,6 +18,10 @@ const SITE_URL = 'https://discountingcashflows.com/';
 (async () => {
   const context = await chromium.launchPersistentContext(PROFILE_DIR, {
     headless: false,
+    // The site 403s Playwright's default headless UA string; a normal
+    // Chrome UA gets a plain 200.
+    userAgent:
+      'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36',
   });
   const page = context.pages()[0] || (await context.newPage());
 
