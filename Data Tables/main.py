@@ -1,6 +1,7 @@
 # Author: Omar Coleman
 # Description: Simple data table for presenting financial values.
 # Created: August 2025
+# Run this at: https://discountingcashflows.com/ (paste into the model editor)
 
 # Derived ratios the data provider doesn't give us directly - shown alongside
 # the raw figures so trend and margin are visible, not just the dollar level.

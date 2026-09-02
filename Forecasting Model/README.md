@@ -1,6 +1,9 @@
-# Discounting Cash Flows(DCF) model
-# Link to website/model editor: https://discountingcashflows.com/
-# Link to financial data: financialmodelingprep.com
+# Forecasting Model
 
+An interactive forecasting model. Projects a company's income statement and free cash flow forward from a small set of editable assumptions, and presents the result in a data table.
 
-# A DCF model I built allows for interactive financial modeling/assumptions. Forecasted data is presented in clear data tables. (Financial Data is pulled from DCF's third party providers such as financialmodelingprep)
+Run it at [discountingcashflows.com](https://discountingcashflows.com/)'s model
+editor (see the [root README](../README.md) for how). 
+Financial data is pulled from [Financial Modeling Prep](https://financialmodelingprep.com/).
+
+![Example output](Forecast.png)

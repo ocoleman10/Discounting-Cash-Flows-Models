@@ -1,6 +1,7 @@
 # Author: Omar Coleman
 # Description: Simple, interactive forecasting model for fundamental financial analysis
 # Created: August 2025
+# Run this at: https://discountingcashflows.com/ (paste into the model editor)
 
 # Initialize assumptions
 assumptions.init({

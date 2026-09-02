@@ -1,6 +1,10 @@
-# Discounting Cash Flows(DCF) model
-# Link to website/model editor: https://discountingcashflows.com/
-# Link to financial data: financialmodelingprep.com
+# Data Table
 
+Presents a company's historical financials: revenue, margins, cash flow, and returns in a single, readable table.
 
-# A DCF model I built that presents financial data in a clear presentable data table. (Financial Data is pulled from DCF's third party providers such as financialmodelingprep)
+Run it at [discountingcashflows.com](https://discountingcashflows.com/)'s model
+editor (see the [root README](../README.md) for how). 
+Financial data is pulled
+from [Financial Modeling Prep](https://financialmodelingprep.com/).
+
+![Example output](DataTable.png)
