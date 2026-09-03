@@ -1,3 +1,8 @@
 node_modules/
 browser-profile/
 *.png
+# Throwaway diagnostic dumps from exploring the site -- these can contain
+# whatever the page happened to embed (session data, third-party keys, etc.)
+# and should never be committed.
+explore-*.html
+explore-*.png

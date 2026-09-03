@@ -12,7 +12,8 @@
 const { chromium } = require('playwright');
 const path = require('path');
 
-const PROFILE_DIR = path.join(__dirname, 'browser-profile');
+// Must be on the native Linux filesystem, not /mnt/c -- see login.js.
+const PROFILE_DIR = process.env.DCF_PROFILE_DIR || path.join(require('os').homedir(), '.dcf-automation-profile');
 const SITE_URL = 'https://discountingcashflows.com/';
 
 (async () => {
