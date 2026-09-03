@@ -1,12 +1,15 @@
 // Runs one of this repo's main.py model scripts against a ticker in
-// discountingcashflows.com's model editor, headlessly, using the saved
-// login profile.
+// discountingcashflows.com's model editor, in a real visible browser
+// window, using the saved login profile. The window is left open so you
+// can look at the result on the actual site -- nothing is saved to disk
+// unless you pass --save.
 //
 // Usage:
-//   node run-model.js "<path-to-main.py>" <TICKER>
+//   node run-model.js <path-to-main.py> <TICKER> [--save]
 //
-// Example:
+// Examples:
 //   node run-model.js "../Data Tables/main.py" AAPL
+//   node run-model.js "../Forecasting Model/main.py" MSFT --save
 
 const { chromium } = require('playwright');
 const fs = require('fs');
@@ -16,10 +19,12 @@ const PROFILE_DIR = process.env.DCF_PROFILE_DIR || path.join(require('os').homed
 const UA =
   'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36';
 
-const [, , scriptPathArg, tickerArg] = process.argv;
+const rawArgs = process.argv.slice(2);
+const save = rawArgs.includes('--save');
+const [scriptPathArg, tickerArg] = rawArgs.filter((a) => a !== '--save');
 
 if (!scriptPathArg || !tickerArg) {
-  console.error('Usage: node run-model.js <path-to-main.py> <TICKER>');
+  console.error('Usage: node run-model.js <path-to-main.py> <TICKER> [--save]');
   process.exit(1);
 }
 
@@ -28,7 +33,7 @@ const ticker = tickerArg.toUpperCase();
 
 (async () => {
   const context = await chromium.launchPersistentContext(PROFILE_DIR, {
-    headless: true,
+    headless: false,
     userAgent: UA,
     viewport: { width: 1400, height: 1000 },
   });
@@ -57,7 +62,7 @@ const ticker = tickerArg.toUpperCase();
       const store = window.Alpine.store('model');
       store.editorCode = code;
       store.ticker = ticker;
-      // Keep the visible Ace editor in sync too, for anyone watching headed.
+      // Keep the visible Ace editor in sync too, since you're watching it.
       if (window.ace) {
         const ed = window.ace.edit('codeEditor');
         if (ed) ed.setValue(code, -1);
@@ -80,26 +85,34 @@ const ticker = tickerArg.toUpperCase();
     .getByText('Running ...', { exact: true })
     .waitFor({ state: 'hidden', timeout: 30000 })
     .catch(() => {});
-  await page.waitForTimeout(1000);
 
-  const outDir = path.join(__dirname, 'runs');
-  fs.mkdirSync(outDir, { recursive: true });
-  const base = `${ticker}-${path.basename(path.dirname(path.resolve(scriptPathArg)))}`.replace(/\s+/g, '-');
+  // Bring the Preview tab into view (it may already be selected, but the
+  // right-hand panel can default elsewhere depending on prior state).
+  await page.getByText('Preview', { exact: true }).first().click().catch(() => {});
 
-  const previewHtml = await page.locator('#modelPreviewWindow').innerHTML().catch(() => '');
-  fs.writeFileSync(path.join(outDir, `${base}-preview.html`), previewHtml);
+  if (save) {
+    const outDir = path.join(__dirname, 'runs');
+    fs.mkdirSync(outDir, { recursive: true });
+    const base = `${ticker}-${path.basename(path.dirname(path.resolve(scriptPathArg)))}`.replace(/\s+/g, '-');
 
-  const consoleText = await page.evaluate(() => {
-    const ed = window.ace && window.ace.edit('codeLog');
-    return ed ? ed.getValue() : null;
-  });
-  if (consoleText !== null) {
-    fs.writeFileSync(path.join(outDir, `${base}-console.log`), consoleText);
+    const previewHtml = await page.locator('#modelPreviewWindow').innerHTML().catch(() => '');
+    fs.writeFileSync(path.join(outDir, `${base}-preview.html`), previewHtml);
+
+    const consoleText = await page.evaluate(() => {
+      const ed = window.ace && window.ace.edit('codeLog');
+      return ed ? ed.getValue() : null;
+    });
+    if (consoleText !== null) {
+      fs.writeFileSync(path.join(outDir, `${base}-console.log`), consoleText);
+    }
+
+    await page.screenshot({ path: path.join(outDir, `${base}.png`), fullPage: false });
+    console.log(`Also saved results to automation/runs/${base}.*`);
   }
 
-  await page.screenshot({ path: path.join(outDir, `${base}.png`), fullPage: false });
+  console.log('Done -- results are showing in the browser window. Close it whenever you\'re finished.');
 
-  console.log(`Saved results to automation/runs/${base}.*`);
-
-  await context.close();
+  // Leave the browser open. Exit this script cleanly once you close the
+  // window yourself, instead of closing it out from under you.
+  context.on('close', () => process.exit(0));
 })();
