@@ -1,5 +1,3 @@
-// Verify authenticated state now that "remember me" was checked, and look
-// at the Model Builder page while logged in.
 const { chromium } = require('playwright');
 const path = require('path');
 
@@ -11,21 +9,28 @@ const UA =
   const context = await chromium.launchPersistentContext(PROFILE_DIR, {
     headless: true,
     userAgent: UA,
+    viewport: { width: 1400, height: 1000 },
   });
   const page = context.pages()[0] || (await context.newPage());
 
-  await page.goto('https://discountingcashflows.com/', { waitUntil: 'domcontentloaded' });
-  await page.waitForTimeout(1000);
-  const loginVisible = await page.getByText('Login', { exact: true }).first().isVisible().catch(() => false);
-  console.log('Login button visible on homepage?', loginVisible);
-  await page.screenshot({ path: 'explore-home.png', fullPage: true });
-
   await page.goto('https://discountingcashflows.com/model-builder/', { waitUntil: 'domcontentloaded' });
   await page.waitForTimeout(1500);
-  await page.screenshot({ path: 'explore-model-builder.png', fullPage: true });
-  require('fs').writeFileSync('explore-dom.html', await page.content());
+  await page.screenshot({ path: 'explore-step1-loaded.png', fullPage: false });
+
+  await page.keyboard.press('Escape').catch(() => {});
+  await page.waitForTimeout(300);
+  await page.screenshot({ path: 'explore-step2-escape.png', fullPage: false });
+
+  await page.getByText('Actions', { exact: true }).first().click();
+  await page.waitForTimeout(300);
+  await page.screenshot({ path: 'explore-step3-actions.png', fullPage: false });
+
+  await page.getByText('Open Code Editor', { exact: true }).first().click();
+  await page.waitForTimeout(1500);
+  await page.screenshot({ path: 'explore-step4-editor.png', fullPage: false });
+
+  console.log('codeEditor exists:', await page.locator('#codeEditor').count());
   console.log('URL:', page.url());
-  console.log('Saved explore-home.png, explore-model-builder.png, explore-dom.html');
 
   await context.close();
 })();

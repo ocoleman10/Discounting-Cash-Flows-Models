@@ -1,5 +1,6 @@
 node_modules/
 browser-profile/
+runs/
 *.png
 # Throwaway diagnostic dumps from exploring the site -- these can contain
 # whatever the page happened to embed (session data, third-party keys, etc.)
