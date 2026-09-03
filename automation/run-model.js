@@ -34,8 +34,11 @@ const ticker = tickerArg.toUpperCase();
 (async () => {
   const context = await chromium.launchPersistentContext(PROFILE_DIR, {
     headless: false,
+    channel: 'msedge', // drive the real, already-installed Edge instead of
+    // Playwright's bundled "Chrome for Testing" build
     userAgent: UA,
-    viewport: { width: 1400, height: 1000 },
+    viewport: null, // use the real window size instead of a fixed viewport
+    args: ['--start-maximized'],
   });
   const page = context.pages()[0] || (await context.newPage());
 

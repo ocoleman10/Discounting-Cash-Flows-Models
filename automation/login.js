@@ -23,6 +23,9 @@ function waitForEnter(prompt) {
 (async () => {
   const context = await chromium.launchPersistentContext(PROFILE_DIR, {
     headless: false,
+    channel: 'msedge', // drive the real, already-installed Edge instead of
+    // Playwright's bundled "Chrome for Testing" build -- must match
+    // run-model.js's channel, since they share the same profile directory
     userAgent: UA,
   });
   const page = context.pages()[0] || (await context.newPage());
