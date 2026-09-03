@@ -332,8 +332,8 @@
 <div class="header">
   <p class="eyebrow">Setup Guide</p>
   <h1>Run your models without touching the browser</h1>
-  <p>A small Playwright script that drives <strong>discountingcashflows.com</strong>'s model editor for you — paste a <code>main.py</code> in, pick a ticker, and it runs the same way as if you'd done it by hand.</p>
-  <div class="prereqs">
+  <p>A small Playwright script that drives <strong>discountingcashflows.com</strong>'s model editor for you.</p>
+  <p>First make sure you have the following prerequisites:</p>
     <span class="prereq-pill"><a href="https://nodejs.org/">Node.js installed</a></span>
     <span class="prereq-pill"><a href="https://discountingcashflows.com/">Your own free DCF account</a></span>
   </div>
@@ -359,7 +359,7 @@ npx playwright install chromium">Copy</button>
       <pre>sudo npx playwright install-deps chromium</pre>
       <button class="copy-btn" data-copy="sudo npx playwright install-deps chromium">Copy</button>
     </div>
-    <p class="desc" style="margin-top:14px;">Windows and macOS don't need this step — Chromium runs out of the box there.</p>
+    <p class="desc" style="margin-top:14px;">Windows and macOS don't need this step.</p>
   </div>
 
   <div class="step">
@@ -367,14 +367,14 @@ npx playwright install chromium">Copy</button>
       <span class="step-num">2</span>
       <h2>Log in once</h2>
     </div>
-    <p class="desc">Opens a real browser window to discountingcashflows.com and waits for you to log in — however long that takes.</p>
+    <p class="desc">Opens a real browser window to discountingcashflows.com and waits for you to log in.</p>
     <div class="code-wrap">
       <pre>node login.js</pre>
       <button class="copy-btn" data-copy="node login.js">Copy</button>
     </div>
     <div class="callout">
       <span class="callout-icon">Note</span>
-      <span>Check <strong>“Remember me”</strong> before clicking Login. Without it, the site only issues a browser-session cookie that disappears the moment the window closes — your login won't stick.</span>
+      <span>Check <strong>“Remember me”</strong> before clicking Login. Without it, the site only issues a browser-session cookie that disappears the moment the window closes so your login won't stick.</span>
     </div>
   </div>
 
@@ -416,7 +416,7 @@ node run-model.js "../Forecasting Model/main.py" NVDA'>Copy</button>
     <ul>
       <li>Your login is saved outside this repo (in your home directory) and never committed.</li>
       <li>If login ever stops working, just run <code>node login.js</code> again.</li>
-      <li>Financial data comes from Financial Modeling Prep, via discountingcashflows.com — this tool only automates the clicking.</li>
+      <li>Financial data comes from Financial Modeling Prep, via discountingcashflows.com. This tool only automates the clicking.</li>
     </ul>
   </div>
 
