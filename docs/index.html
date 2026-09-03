@@ -8,113 +8,55 @@
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧮</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
     --bg: #ffffff;
-    --bg-soft: #f6f7fb;
+    --bg-soft: #ffffff;
     --card: #ffffff;
-    --ink: #161b26;
-    --ink-soft: #5f6b7a;
-    --ink-faint: #8a93a3;
-    --brand: #4f46e5;
-    --brand-2: #7c3aed;
-    --success: #0f9d63;
-    --success-soft: #dff7ea;
-    --success-ink: #0b7a4d;
-    --warn: #b45309;
-    --warn-soft: #fef3c7;
-    --border: #e3e6ed;
-    --code-bg: #fbfbfe;
-    --code-border: #e7e9f2;
-    --code-ink: #22262f;
-    --code-comment: #7a8598;
-    --code-string: #c0341d;
-    --code-keyword: #1c4fd6;
-    --code-flag: #0f9d63;
-    --footer-bg: #12141d;
-    --footer-ink: #cdd2e0;
-    --footer-ink-soft: #7d859b;
-    --shadow: 0 1px 2px rgba(22, 27, 38, 0.04), 0 8px 24px -12px rgba(22, 27, 38, 0.12);
+    --ink: #14151a;
+    --ink-soft: #454a54;
+    --ink-faint: #6b7078;
+    --accent: #4338ca;
+    --success: #0f7a4d;
+    --border: #d8dae0;
+    --code-bg: #ffffff;
+    --code-border: #d8dae0;
+    --code-ink: #14151a;
+    --code-comment: #6b7078;
+    --code-string: #b0341f;
+    --code-flag: #0f7a4d;
   }
 
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) {
-      --bg: #0e1015;
-      --bg-soft: #171a22;
-      --card: #161922;
-      --ink: #edeff5;
-      --ink-soft: #9aa3b2;
-      --ink-faint: #6b7385;
-      --brand: #9089ff;
-      --brand-2: #b98cff;
-      --success: #4ade9c;
-      --success-soft: #123326;
-      --success-ink: #7dedb8;
-      --warn: #f0b849;
-      --warn-soft: #302408;
-      --border: #262b38;
-      --code-bg: #14161d;
-      --code-border: #262b38;
-      --code-ink: #dde1ea;
-      --code-comment: #8a93a6;
-      --code-string: #ff8b73;
-      --code-keyword: #8ab4ff;
-      --code-flag: #4ade9c;
-      --footer-bg: #05060a;
-      --footer-ink: #c9ced9;
-      --footer-ink-soft: #565d70;
-      --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px -12px rgba(0, 0, 0, 0.5);
-    }
-  }
-
-  :root[data-theme="dark"] {
-    --bg: #0e1015;
-    --bg-soft: #171a22;
-    --card: #161922;
-    --ink: #edeff5;
-    --ink-soft: #9aa3b2;
-    --ink-faint: #6b7385;
-    --brand: #9089ff;
-    --brand-2: #b98cff;
-    --success: #4ade9c;
-    --success-soft: #123326;
-    --success-ink: #7dedb8;
-    --warn: #f0b849;
-    --warn-soft: #302408;
-    --border: #262b38;
-    --code-bg: #14161d;
-    --code-border: #262b38;
-    --code-ink: #dde1ea;
-    --code-comment: #8a93a6;
-    --code-string: #ff8b73;
-    --code-keyword: #8ab4ff;
-    --code-flag: #4ade9c;
-    --footer-bg: #05060a;
-    --footer-ink: #c9ced9;
-    --footer-ink-soft: #565d70;
-    --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px -12px rgba(0, 0, 0, 0.5);
-  }
+  /* This page is fixed light -- intentionally no dark-mode variant. */
 
   * { box-sizing: border-box; }
 
-  html { color-scheme: light dark; }
+  html { color-scheme: light; }
 
   body {
     margin: 0;
     background: var(--bg);
     color: var(--ink);
-    font-family: 'Plus Jakarta Sans', -apple-system, 'Segoe UI', sans-serif;
+    font-family: 'Inter', -apple-system, 'Segoe UI', sans-serif;
     -webkit-font-smoothing: antialiased;
   }
 
-  a { color: var(--brand); }
+  a { color: var(--accent); text-decoration-color: currentColor; text-underline-offset: 3px; }
+  a:hover { color: var(--ink); }
   a:focus-visible, button:focus-visible, .copy-btn:focus-visible {
-    outline: 2px solid var(--brand);
+    outline: 2px solid var(--accent);
     outline-offset: 2px;
   }
 
   code, .mono { font-family: 'JetBrains Mono', 'Cascadia Code', Consolas, monospace; }
+  code {
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    padding: 1px 6px;
+    border-radius: 0;
+    font-size: 0.88em;
+  }
 
   h1, h2, h3 { text-wrap: balance; }
 
@@ -123,130 +65,105 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 18px 28px;
+    padding: 20px 28px;
     border-bottom: 1px solid var(--border);
   }
   .brand-mark {
     display: flex;
     align-items: center;
-    gap: 10px;
-    font-weight: 800;
-    font-size: 1.05rem;
+    gap: 9px;
+    font-weight: 700;
+    font-size: 1rem;
     letter-spacing: -0.01em;
   }
-  .brand-mark .dot {
-    width: 26px;
-    height: 26px;
-    border-radius: 8px;
-    background: linear-gradient(135deg, var(--brand), var(--brand-2));
+  .brand-mark .mark {
+    width: 18px;
+    height: 18px;
+    background: var(--accent);
     flex-shrink: 0;
   }
   .topbar nav a {
     color: var(--ink-soft);
-    text-decoration: none;
-    font-size: 0.9rem;
+    font-size: 0.88rem;
     font-weight: 600;
   }
-  .topbar nav a:hover { color: var(--brand); }
+  .topbar nav a:hover { color: var(--accent); }
 
-  /* ---------- Header band ---------- */
-  .header-band {
-    background: linear-gradient(120deg, var(--brand) 0%, var(--brand-2) 100%);
-    padding: 56px 28px 68px;
-    position: relative;
-    overflow: hidden;
-  }
-  .header-band::after {
-    content: "";
-    position: absolute;
-    inset: auto -10% -60% -10%;
-    height: 140px;
-    background: var(--bg);
-    border-radius: 50% 50% 0 0 / 100% 100% 0 0;
-  }
-  .header-inner {
+  /* ---------- Header ---------- */
+  .header {
     max-width: 720px;
     margin: 0 auto;
-    position: relative;
-    z-index: 1;
+    padding: 64px 28px 48px;
+    border-bottom: 1px solid var(--border);
   }
   .eyebrow {
-    color: rgba(255,255,255,0.85);
-    font-size: 0.8rem;
+    color: var(--ink-faint);
+    font-size: 0.78rem;
     font-weight: 700;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    margin: 0 0 12px;
-  }
-  .header-inner h1 {
-    color: #fff;
-    font-size: clamp(2rem, 4vw, 2.6rem);
-    line-height: 1.15;
     margin: 0 0 14px;
+  }
+  .header h1 {
+    color: var(--ink);
+    font-size: clamp(1.9rem, 4vw, 2.4rem);
+    line-height: 1.2;
+    margin: 0 0 16px;
     letter-spacing: -0.02em;
   }
-  .header-inner p {
-    color: rgba(255,255,255,0.92);
-    font-size: 1.05rem;
-    line-height: 1.6;
-    margin: 0 0 24px;
-    max-width: 56ch;
+  .header p {
+    color: var(--ink-soft);
+    font-size: 1.02rem;
+    line-height: 1.65;
+    margin: 0 0 26px;
+    max-width: 58ch;
   }
   .prereqs {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
+    gap: 8px;
   }
   .prereq-pill {
     display: inline-flex;
     align-items: center;
-    gap: 7px;
-    background: rgba(255,255,255,0.16);
-    border: 1px solid rgba(255,255,255,0.3);
-    color: #fff;
-    font-size: 0.85rem;
+    gap: 6px;
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    color: var(--ink-soft);
+    font-size: 0.83rem;
     font-weight: 600;
-    padding: 7px 13px;
-    border-radius: 999px;
-    backdrop-filter: blur(4px);
+    padding: 6px 12px;
   }
-  .prereq-pill a { color: #fff; text-decoration: underline; text-underline-offset: 2px; }
+  .prereq-pill a { color: var(--accent); }
+  .prereq-pill a:hover { color: var(--ink); }
 
   /* ---------- Content ---------- */
   main {
     max-width: 720px;
-    margin: -34px auto 0;
+    margin: 0 auto;
     padding: 0 28px 80px;
-    position: relative;
-    z-index: 2;
   }
 
   .step {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    box-shadow: var(--shadow);
-    padding: 30px 32px 32px;
-    margin-bottom: 22px;
+    padding: 32px 0;
+    border-bottom: 1px solid var(--border);
   }
+  .step:last-child { border-bottom: none; }
   .step-head {
     display: flex;
     align-items: baseline;
-    gap: 16px;
+    gap: 14px;
     margin-bottom: 6px;
   }
   .step-num {
     font-family: 'JetBrains Mono', monospace;
-    font-weight: 700;
-    font-size: 0.95rem;
-    color: var(--brand);
-    background: color-mix(in srgb, var(--brand) 12%, transparent);
-    border-radius: 8px;
-    padding: 3px 9px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--accent);
     flex-shrink: 0;
   }
   .step h2 {
-    font-size: 1.3rem;
+    font-size: 1.2rem;
     margin: 0;
     letter-spacing: -0.01em;
   }
@@ -261,24 +178,21 @@
   .tag {
     display: inline-flex;
     align-items: center;
-    gap: 5px;
     font-size: 0.72rem;
     font-weight: 700;
-    letter-spacing: 0.03em;
+    letter-spacing: 0.04em;
     text-transform: uppercase;
-    background: var(--success-soft);
-    color: var(--success-ink);
-    padding: 3px 9px;
-    border-radius: 6px;
+    color: var(--ink-faint);
+    border: 1px solid var(--border);
+    padding: 3px 8px;
     margin-bottom: 12px;
   }
 
-  /* ---------- Code blocks (styled like the site's own light editor) ---------- */
+  /* ---------- Code blocks ---------- */
   .code-wrap {
     position: relative;
     background: var(--code-bg);
     border: 1px solid var(--code-border);
-    border-radius: 11px;
     overflow-x: auto;
     margin: 14px 0;
   }
@@ -293,7 +207,6 @@
   }
   .c { color: var(--code-comment); }
   .s { color: var(--code-string); }
-  .k { color: var(--code-keyword); }
   .f { color: var(--code-flag); font-weight: 600; }
 
   .copy-btn {
@@ -303,15 +216,14 @@
     background: var(--card);
     border: 1px solid var(--code-border);
     color: var(--ink-soft);
-    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-family: 'Inter', sans-serif;
     font-size: 0.72rem;
     font-weight: 700;
     padding: 5px 10px;
-    border-radius: 7px;
     cursor: pointer;
     transition: color 0.15s ease, border-color 0.15s ease;
   }
-  .copy-btn:hover { color: var(--brand); border-color: var(--brand); }
+  .copy-btn:hover { color: var(--accent); border-color: var(--accent); }
   @media (prefers-reduced-motion: reduce) {
     .copy-btn { transition: none; }
   }
@@ -320,17 +232,25 @@
   .callout {
     display: flex;
     gap: 12px;
-    background: var(--warn-soft);
-    border: 1px solid color-mix(in srgb, var(--warn) 35%, transparent);
-    border-left: 3px solid var(--warn);
-    border-radius: 10px;
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
     padding: 14px 16px;
     margin: 16px 0 4px;
     font-size: 0.92rem;
     line-height: 1.6;
+    color: var(--ink-soft);
   }
-  .callout strong { color: var(--warn); }
-  .callout-icon { font-size: 1.05rem; flex-shrink: 0; line-height: 1.5; }
+  .callout strong { color: var(--ink); }
+  .callout-icon {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    flex-shrink: 0;
+    line-height: 1.7;
+    color: var(--ink-faint);
+  }
 
   .file-list {
     list-style: none;
@@ -351,16 +271,13 @@
     border: 1px solid var(--border);
     color: var(--ink);
     padding: 2px 7px;
-    border-radius: 6px;
+    border-radius: 0;
     font-size: 0.82rem;
   }
 
-  .divider {
-    border: none;
-    border-top: 1px solid var(--border);
-    margin: 40px 0 28px;
+  .notes {
+    padding-top: 32px;
   }
-
   .notes h3 {
     font-size: 0.78rem;
     font-weight: 700;
@@ -380,10 +297,8 @@
 
   /* ---------- Footer ---------- */
   footer {
-    background: var(--footer-bg);
-    color: var(--footer-ink);
-    padding: 30px 28px;
-    margin-top: 10px;
+    border-top: 1px solid var(--border);
+    padding: 24px 28px;
   }
   .footer-inner {
     max-width: 720px;
@@ -395,14 +310,14 @@
     gap: 12px;
     font-size: 0.85rem;
   }
-  footer a { color: var(--footer-ink); }
-  footer a:hover { color: #fff; }
-  .footer-sub { color: var(--footer-ink-soft); }
+  footer a { color: var(--ink-soft); }
+  footer a:hover { color: var(--ink); }
+  .footer-sub { color: var(--ink-faint); }
 
   @media (max-width: 560px) {
-    .header-band { padding: 44px 20px 60px; }
+    .header { padding: 44px 20px 36px; }
     main { padding: 0 18px 60px; }
-    .step { padding: 24px 20px 26px; }
+    .step { padding: 26px 0; }
     .footer-inner { flex-direction: column; align-items: flex-start; }
   }
 </style>
@@ -410,19 +325,17 @@
 <body>
 
 <div class="topbar">
-  <div class="brand-mark"><span class="dot"></span> Model Runner</div>
+  <div class="brand-mark"><span class="mark"></span> Model Runner</div>
   <nav><a href="https://github.com/ocoleman10/Discounting-Cash-Flows-Models">GitHub ↗</a></nav>
 </div>
 
-<div class="header-band">
-  <div class="header-inner">
-    <p class="eyebrow">Setup Guide</p>
-    <h1>Run your models without touching the browser</h1>
-    <p>A small Playwright script that drives <strong>discountingcashflows.com</strong>'s model editor for you — paste a <code style="background:rgba(255,255,255,0.18); padding:2px 6px; border-radius:5px;">main.py</code> in, pick a ticker, and it runs the same way as if you'd done it by hand.</p>
-    <div class="prereqs">
-      <span class="prereq-pill">✓ Node.js installed</span>
-      <span class="prereq-pill">✓ <a href="https://discountingcashflows.com/">Your own free DCF account</a></span>
-    </div>
+<div class="header">
+  <p class="eyebrow">Setup Guide</p>
+  <h1>Run your models without touching the browser</h1>
+  <p>A small Playwright script that drives <strong>discountingcashflows.com</strong>'s model editor for you — paste a <code>main.py</code> in, pick a ticker, and it runs the same way as if you'd done it by hand.</p>
+  <div class="prereqs">
+    <span class="prereq-pill">Node.js installed</span>
+    <span class="prereq-pill"><a href="https://discountingcashflows.com/">Your own free DCF account</a></span>
   </div>
 </div>
 
@@ -430,7 +343,7 @@
 
   <div class="step">
     <div class="step-head">
-      <span class="step-num">01</span>
+      <span class="step-num">1</span>
       <h2>Install dependencies</h2>
     </div>
     <p class="desc">From the <code>automation/</code> folder, install Playwright and download a Chromium browser for it to drive.</p>
@@ -451,7 +364,7 @@ npx playwright install chromium">Copy</button>
 
   <div class="step">
     <div class="step-head">
-      <span class="step-num">02</span>
+      <span class="step-num">2</span>
       <h2>Log in once</h2>
     </div>
     <p class="desc">Opens a real browser window to discountingcashflows.com and waits for you to log in — however long that takes.</p>
@@ -460,14 +373,14 @@ npx playwright install chromium">Copy</button>
       <button class="copy-btn" data-copy="node login.js">Copy</button>
     </div>
     <div class="callout">
-      <span class="callout-icon">⚠</span>
+      <span class="callout-icon">Note</span>
       <span>Check <strong>“Remember me”</strong> before clicking Login. Without it, the site only issues a browser-session cookie that disappears the moment the window closes — your login won't stick.</span>
     </div>
   </div>
 
   <div class="step">
     <div class="step-head">
-      <span class="step-num">03</span>
+      <span class="step-num">3</span>
       <h2>Run a model</h2>
     </div>
     <p class="desc">Point it at either model's <code>main.py</code> and a ticker. A window opens, pastes in your code, runs it, and leaves the result sitting on the <strong>Preview</strong> tab for you to look at.</p>
@@ -482,15 +395,15 @@ node run-model.js "../Forecasting Model/main.py" NVDA'>Copy</button>
 
   <div class="step">
     <div class="step-head">
-      <span class="step-num">04</span>
+      <span class="step-num">4</span>
       <h2>Optional: keep a record</h2>
     </div>
-    <p class="desc">Add the <span class="mono" style="color:var(--code-flag); font-weight:600;">--save</span> flag to also write the result to disk, in addition to showing it in the browser.</p>
+    <p class="desc">Add the <code>--save</code> flag to also write the result to disk, in addition to showing it in the browser.</p>
     <div class="code-wrap">
       <pre>node run-model.js <span class="s">"../Data Tables/main.py"</span> AAPL <span class="f">--save</span></pre>
       <button class="copy-btn" data-copy='node run-model.js "../Data Tables/main.py" AAPL --save'>Copy</button>
     </div>
-    <p class="desc" style="margin-bottom:6px;">Saved to <code style="background:var(--bg-soft); border:1px solid var(--border); padding:2px 6px; border-radius:6px;">automation/runs/</code>:</p>
+    <p class="desc" style="margin-bottom:6px;">Saved to <code>automation/runs/</code>:</p>
     <ul class="file-list">
       <li><code>AAPL-Data-Tables.png</code><span>— screenshot of the result</span></li>
       <li><code>AAPL-Data-Tables-preview.html</code><span>— raw rendered output</span></li>
@@ -498,13 +411,11 @@ node run-model.js "../Forecasting Model/main.py" NVDA'>Copy</button>
     </ul>
   </div>
 
-  <hr class="divider">
-
   <div class="notes">
     <h3>Notes</h3>
     <ul>
       <li>Your login is saved outside this repo (in your home directory) and never committed.</li>
-      <li>If login ever stops working, just run <code class="mono" style="background:var(--bg-soft); border:1px solid var(--border); padding:1px 6px; border-radius:5px; font-size:0.85em;">node login.js</code> again.</li>
+      <li>If login ever stops working, just run <code>node login.js</code> again.</li>
       <li>Financial data comes from Financial Modeling Prep, via discountingcashflows.com — this tool only automates the clicking.</li>
     </ul>
   </div>
