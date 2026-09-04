@@ -4,6 +4,7 @@
 // ./browser-profile for every future script to reuse.
 
 const { chromium } = require('playwright');
+const fs = require('fs');
 const path = require('path');
 const readline = require('readline');
 
@@ -20,12 +21,27 @@ function waitForEnter(prompt) {
   return new Promise((resolve) => rl.question(prompt, () => { rl.close(); resolve(); }));
 }
 
+// If a previous run got force-killed instead of closed normally, Chromium
+// records that as an unclean exit and shows a "Restore pages?" prompt on the
+// next launch. Pre-emptively mark the profile as exited cleanly so that
+// never happens, regardless of how the last run actually ended.
+function markProfileExitedCleanly(profileDir) {
+  const prefsPath = path.join(profileDir, 'Default', 'Preferences');
+  try {
+    const prefs = JSON.parse(fs.readFileSync(prefsPath, 'utf8'));
+    prefs.profile = prefs.profile || {};
+    prefs.profile.exit_type = 'Normal';
+    prefs.profile.exited_cleanly = true;
+    fs.writeFileSync(prefsPath, JSON.stringify(prefs));
+  } catch (e) {
+    // No profile yet (first run ever), or unreadable -- nothing to patch.
+  }
+}
+
 (async () => {
+  markProfileExitedCleanly(PROFILE_DIR);
   const context = await chromium.launchPersistentContext(PROFILE_DIR, {
     headless: false,
-    channel: 'msedge', // drive the real, already-installed Edge instead of
-    // Playwright's bundled "Chrome for Testing" build -- must match
-    // run-model.js's channel, since they share the same profile directory
     userAgent: UA,
   });
   const page = context.pages()[0] || (await context.newPage());

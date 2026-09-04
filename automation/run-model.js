@@ -19,6 +19,24 @@ const PROFILE_DIR = process.env.DCF_PROFILE_DIR || path.join(require('os').homed
 const UA =
   'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36';
 
+// If a previous run got force-killed (terminal closed, tool timeout, etc.)
+// instead of the window being closed normally, Chromium records that as an
+// unclean exit and shows a "Restore pages?" prompt on the next launch.
+// Pre-emptively mark the profile as having exited cleanly so that never
+// happens, regardless of how the last run actually ended.
+function markProfileExitedCleanly(profileDir) {
+  const prefsPath = path.join(profileDir, 'Default', 'Preferences');
+  try {
+    const prefs = JSON.parse(fs.readFileSync(prefsPath, 'utf8'));
+    prefs.profile = prefs.profile || {};
+    prefs.profile.exit_type = 'Normal';
+    prefs.profile.exited_cleanly = true;
+    fs.writeFileSync(prefsPath, JSON.stringify(prefs));
+  } catch (e) {
+    // No profile yet (first run ever), or unreadable -- nothing to patch.
+  }
+}
+
 const rawArgs = process.argv.slice(2);
 const save = rawArgs.includes('--save');
 const [scriptPathArg, tickerArg] = rawArgs.filter((a) => a !== '--save');
@@ -32,15 +50,33 @@ const code = fs.readFileSync(path.resolve(scriptPathArg), 'utf8');
 const ticker = tickerArg.toUpperCase();
 
 (async () => {
+  markProfileExitedCleanly(PROFILE_DIR);
   const context = await chromium.launchPersistentContext(PROFILE_DIR, {
     headless: false,
-    channel: 'msedge', // drive the real, already-installed Edge instead of
-    // Playwright's bundled "Chrome for Testing" build
     userAgent: UA,
     viewport: null, // use the real window size instead of a fixed viewport
-    args: ['--start-maximized'],
   });
   const page = context.pages()[0] || (await context.newPage());
+
+  // Both --start-maximized (a launch flag) and CDP's windowState:'maximized'
+  // are unreliable under WSLg -- the window ends up offset instead of truly
+  // filling the screen. Query the real screen size from inside the browser
+  // itself (works on any machine/resolution, no hardcoding) and set explicit
+  // pixel bounds instead of relying on a "maximized" state at all.
+  try {
+    const { width, height } = await page.evaluate(() => ({
+      width: window.screen.availWidth,
+      height: window.screen.availHeight,
+    }));
+    const cdp = await context.newCDPSession(page);
+    const { windowId } = await cdp.send('Browser.getWindowForTarget');
+    await cdp.send('Browser.setWindowBounds', {
+      windowId,
+      bounds: { windowState: 'normal', left: 0, top: 0, width, height },
+    });
+  } catch (e) {
+    console.error('Could not resize window:', e.message);
+  }
 
   // A prior run can leave "unsaved changes" in localStorage, which makes
   // "Open Code Editor" pop a confirm() dialog we'd otherwise never answer.
