@@ -25,7 +25,9 @@ const ticker = process.argv[2] || 'AAPL';
   await page.waitForTimeout(1500);
   await page.keyboard.press('Escape').catch(() => {});
   await page.waitForTimeout(300);
-  await page.getByText('Actions', { exact: true }).first().click();
+  await page.keyboard.press('Escape').catch(() => {});
+  await page.waitForTimeout(300);
+  await page.getByText('Actions', { exact: true }).first().click({ force: true });
   await page.waitForTimeout(300);
   await page.getByText('Open Code Editor', { exact: true }).first().click();
   await page.waitForSelector('#codeEditor', { timeout: 15000 });
@@ -64,13 +66,9 @@ const ticker = process.argv[2] || 'AAPL';
 
   await page.getByText('Preview', { exact: true }).first().click().catch(() => {});
   await page.waitForTimeout(500);
-  await page.evaluate(() => {
-    const el = document.getElementById('modelPreviewWindow');
-    if (el) el.scrollTop = el.scrollHeight;
-  });
-  await page.waitForTimeout(300);
-  await page.screenshot({ path: 'verify-result-bottom.png', fullPage: false });
-  console.log('Saved verify-result-bottom.png');
+  const tableText = await page.evaluate(() => document.getElementById('modelPreviewWindow')?.innerText || '');
+  console.log('--- Table text ---');
+  console.log(tableText);
 
   await context.close();
 })();
