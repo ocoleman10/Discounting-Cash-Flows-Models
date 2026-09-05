@@ -15,6 +15,14 @@ last_da_percent_revenue = data.get("income:depreciationAndAmortization") / data.
 last_net_margin = data.get("income:netIncome") / data.get("income:revenue")
 last_fcf_margin = data.get("flow:freeCashFlow") / data.get("income:revenue")
 
+# Derive the retention rate from what book value per share actually did last
+# year, rather than assuming 100% (fully retained earnings, no dividends or
+# buybacks). Many mature companies buy back more stock than they retain in
+# earnings, which shrinks book value per share even while profits grow --
+# defaulting to 100% would completely miss that and badly overstate it.
+last_bvps_change = data.get("ratio:bookValuePerShare") - data.get("ratio:bookValuePerShare:-1")
+last_retention_rate = last_bvps_change / data.get("income:eps")
+
 # Initialize assumptions
 assumptions.init({
     "projection_years": 5,  # Set the number of years to project
@@ -23,7 +31,7 @@ assumptions.init({
     "%da_percent_revenue": f"{last_da_percent_revenue * 100:.1f}%",  # D&A as % of revenue
     "%net_margin": f"{last_net_margin * 100:.1f}%",  # Net income as % of revenue
     "%fcf_margin": f"{last_fcf_margin * 100:.1f}%",  # Free cash flow as % of revenue
-    "%retention_rate": "100%",  # Share of EPS retained as equity (100% = no dividends paid out)
+    "%retention_rate": f"{last_retention_rate * 100:.1f}%",  # Share of EPS retained as equity, implied by last year's actual change in book value (can be negative if buybacks/dividends exceeded earnings)
 })
 
 # Project revenue first -- everything else below is derived from it via a margin
