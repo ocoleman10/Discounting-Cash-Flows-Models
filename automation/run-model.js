@@ -53,6 +53,10 @@ const ticker = tickerArg.toUpperCase();
   markProfileExitedCleanly(PROFILE_DIR);
   const context = await chromium.launchPersistentContext(PROFILE_DIR, {
     headless: false,
+    channel: 'msedge', // drive the real, already-installed Edge instead of
+    // Playwright's bundled "Chrome for Testing" build
+    chromiumSandbox: true, // Playwright defaults this to false (i.e. passes
+    // --no-sandbox) on every platform -- turn the real sandbox back on.
     userAgent: UA,
     viewport: null, // use the real window size instead of a fixed viewport
   });

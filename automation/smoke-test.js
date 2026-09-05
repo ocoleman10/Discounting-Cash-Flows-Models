@@ -18,6 +18,10 @@ const SITE_URL = 'https://discountingcashflows.com/';
 (async () => {
   const context = await chromium.launchPersistentContext(PROFILE_DIR, {
     headless: false,
+    channel: 'msedge', // drive the real, already-installed Edge instead of
+    // Playwright's bundled "Chrome for Testing" build
+    chromiumSandbox: true, // Playwright defaults this to false (i.e. passes
+    // --no-sandbox) on every platform -- turn the real sandbox back on.
     // The site 403s Playwright's default headless UA string; a normal
     // Chrome UA gets a plain 200.
     userAgent:
