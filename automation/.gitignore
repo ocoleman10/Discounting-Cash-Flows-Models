@@ -1,5 +1,4 @@
 node_modules/
-browser-profile/
 runs/
 *.png
 # Throwaway diagnostic dumps from exploring the site -- these can contain
@@ -7,3 +6,6 @@ runs/
 # and should never be committed.
 explore-*.html
 explore-*.png
+# One-off scratch script used during development, not part of the shipped
+# tool (login.js / run-model.js).
+explore.js

@@ -1,13 +1,12 @@
 {
   "name": "automation",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Playwright automation for running this repo's models on discountingcashflows.com without manual copy-pasting.",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"No automated tests -- see automation/README.md for manual verification steps\""
   },
-  "keywords": [],
-  "author": "",
+  "keywords": ["playwright", "automation", "discountingcashflows"],
+  "author": "Omar Coleman",
   "license": "ISC",
   "type": "commonjs",
   "devDependencies": {

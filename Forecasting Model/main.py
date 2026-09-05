@@ -9,19 +9,35 @@
 
 # Default each margin assumption to the company's own most recent actual margin,
 # so the forecast starts from where the business actually is today rather than
-# an arbitrary guess.
-last_ebitda_margin = data.get("income:ebitda") / data.get("income:revenue")
-last_da_percent_revenue = data.get("income:depreciationAndAmortization") / data.get("income:revenue")
-last_net_margin = data.get("income:netIncome") / data.get("income:revenue")
-last_fcf_margin = data.get("flow:freeCashFlow") / data.get("income:revenue")
+# an arbitrary guess. Guard against a pre-revenue company (revenue <= 0), which
+# would otherwise divide by zero here.
+base_revenue = data.get("income:revenue")
+if base_revenue > 0:
+    last_ebitda_margin = data.get("income:ebitda") / base_revenue
+    last_da_percent_revenue = data.get("income:depreciationAndAmortization") / base_revenue
+    last_net_margin = data.get("income:netIncome") / base_revenue
+    last_fcf_margin = data.get("flow:freeCashFlow") / base_revenue
+else:
+    last_ebitda_margin = last_da_percent_revenue = last_net_margin = last_fcf_margin = 0.0
 
 # Derive the retention rate from what book value per share actually did last
 # year, rather than assuming 100% (fully retained earnings, no dividends or
 # buybacks). Many mature companies buy back more stock than they retain in
 # earnings, which shrinks book value per share even while profits grow --
 # defaulting to 100% would completely miss that and badly overstate it.
+base_eps = data.get("income:eps")
 last_bvps_change = data.get("ratio:bookValuePerShare") - data.get("ratio:bookValuePerShare:-1")
-last_retention_rate = last_bvps_change / data.get("income:eps")
+if base_eps > 0:
+    last_retention_rate = last_bvps_change / base_eps
+    # Clamp to +/-100% -- a single volatile year shouldn't imply the company
+    # retains multiples of its own earnings, or buys back more than all of
+    # them, forever.
+    last_retention_rate = max(-1.0, min(1.0, last_retention_rate))
+else:
+    # A loss-making base year gives no sensible retention signal (dividing by
+    # a zero or negative EPS could even flip the sign) -- assume book value
+    # per share just holds flat instead of guessing.
+    last_retention_rate = 0.0
 
 # Initialize assumptions
 assumptions.init({
@@ -51,9 +67,18 @@ data.compute({
 
 # EPS tracks net income's own growth rate (assuming a roughly constant share
 # count), instead of growing at revenue's rate -- margin expansion or
-# compression should flow through to EPS via net income, not bypass it.
+# compression should flow through to EPS via net income, not bypass it. Skip
+# this if the base year's net income was zero/negative -- dividing by it could
+# flip EPS's sign or blow up to a nonsensical magnitude -- and just hold EPS
+# flat instead.
+base_net_income = data.get("income:netIncome")
+eps_formula = (
+    "income:eps:-1 * (income:netIncome / income:netIncome:-1)"
+    if base_net_income > 0
+    else "income:eps:-1"
+)
 data.compute({
-    "income:eps": "income:eps:-1 * (income:netIncome / income:netIncome:-1)",
+    "income:eps": eps_formula,
 }, forecast=assumptions.get("projection_years"))
 
 # Book value per share grows by retained earnings -- that's how equity actually

@@ -1,12 +1,11 @@
 // Smoke test: confirms Playwright can launch a persistent, logged-in browser
-// profile and reach discountingcashflows.com's model editor.
+// profile and reach discountingcashflows.com's model editor. Use login.js for
+// the actual one-time login flow -- this is just a quick diagnostic to
+// re-check the setup independent of that.
 //
-// First run: a browser window opens to the site. Log in manually (once) --
-// the session is saved to ./browser-profile and reused on every future run,
-// so you won't need to log in again.
+// The session lives in ~/.dcf-automation-profile and is reused on every run.
 //
 // Usage:
-//   npx playwright install chromium   (already run once)
 //   node smoke-test.js
 
 const { chromium } = require('playwright');

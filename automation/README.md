@@ -58,6 +58,17 @@ Add `--save` to also write a screenshot, the rendered HTML, and the console log 
 node run-model.js "../Data Tables/main.py" AAPL --save
 ```
 
+## Dev tools
+
+`smoke-test.js` is a quick diagnostic, separate from the main `login.js` / `run-model.js`
+flow above -- it just confirms Playwright can launch the saved profile and reach the site,
+useful when something's not working and you want to isolate whether it's the browser/profile
+or the actual run:
+
+```bash
+node smoke-test.js
+```
+
 ## Notes
 
 - The saved login lives outside this repo (in your home directory), never committed.

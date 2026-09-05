@@ -14,8 +14,8 @@ in-browser model editor, which injects objects like `model`, `data` and `assumpt
 ### Automated option
 
 If you'd rather not copy-paste by hand each time, [`automation/`](automation/) has a
-Playwright script that drives the model editor for you — paste your own credentials
-in once, then run one command per ticker. See the
+Playwright script that drives the model editor for you — log in once in a real
+browser window, then run one command per ticker. See the
 [setup guide](https://ocoleman10.github.io/Discounting-Cash-Flows-Models/) or
 [automation/README.md](automation/README.md).
 

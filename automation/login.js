@@ -1,7 +1,7 @@
 // Interactive login: opens a visible browser to discountingcashflows.com and
 // waits for YOU to log in, however long that takes. Press Enter in this
 // terminal once you're logged in, and the session is saved to
-// ./browser-profile for every future script to reuse.
+// ~/.dcf-automation-profile for every future script to reuse.
 
 const { chromium } = require('playwright');
 const fs = require('fs');
