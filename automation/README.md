@@ -4,26 +4,32 @@ Drives [discountingcashflows.com](https://discountingcashflows.com/)'s model edi
 [Playwright](https://playwright.dev/) so you can run a `main.py` against a ticker with one
 command instead of copy-pasting it into the browser by hand.
 
-This is a plain Node.js + Playwright setup — it works the same on Windows, macOS, and Linux
-(including inside WSL). You'll need your own free account on the site; this doesn't share
-or bypass that requirement.
+**Prerequisites:**
+
+- [Node.js](https://nodejs.org/) installed
+- Your own free account at [discountingcashflows.com](https://discountingcashflows.com/)
+
+Works the same on Windows, macOS, and Linux (including inside WSL).
 
 ## Setup (one time)
 
 ```bash
 cd automation
 npm install
-npx playwright install chromium
 ```
 
-On Linux (including WSL), Chromium also needs a few system libraries the first time:
+These scripts automatically drive the **Microsoft Edge** browser.
+
+- **Windows / macOS:** Edge is already installed. Nothing else to do.
+- **Linux (including WSL):** install it and its system libraries first:
 
 ```bash
-sudo npx playwright install-deps chromium
+npx playwright install msedge
+sudo npx playwright install-deps msedge
 ```
 
-Then log in once — this opens a real browser window, waits for you to log in, and saves
-the session so every future run reuses it:
+Then, still from inside `automation/`, log in once — this opens a real browser window,
+waits for you to log in, and saves the session so every future run reuses it:
 
 ```bash
 node login.js
@@ -34,6 +40,8 @@ the browser closing), then come back to the terminal and press Enter. It'll conf
 the login stuck.
 
 ## Running a model
+
+Run this from inside `automation/` too:
 
 ```bash
 node run-model.js "<path-to-main.py>" <TICKER>
@@ -63,7 +71,7 @@ node run-model.js "../Data Tables/main.py" AAPL --save
 `smoke-test.js` is a quick diagnostic, separate from the main `login.js` / `run-model.js`
 flow above -- it just confirms Playwright can launch the saved profile and reach the site,
 useful when something's not working and you want to isolate whether it's the browser/profile
-or the actual run:
+or the actual run. Run from inside `automation/`:
 
 ```bash
 node smoke-test.js

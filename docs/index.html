@@ -23,7 +23,6 @@
     --code-bg: #f2f3f5;
     --code-border: #d8dae0;
     --code-ink: #14151a;
-    --code-comment: #6b7078;
     --code-string: #b0341f;
     --code-flag: #0f7a4d;
   }
@@ -205,7 +204,6 @@
     color: var(--code-ink);
     white-space: pre;
   }
-  .c { color: var(--code-comment); }
   .s { color: var(--code-string); }
   .f { color: var(--code-flag); font-weight: 600; }
 
@@ -250,6 +248,30 @@
     flex-shrink: 0;
     line-height: 1.7;
     color: var(--ink-faint);
+  }
+
+  .examples {
+    display: grid;
+    gap: 16px;
+    margin: 18px 0 4px;
+  }
+  .examples figure {
+    margin: 0;
+    border: 1px solid var(--border);
+    overflow: hidden;
+  }
+  .examples img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  .examples figcaption {
+    padding: 8px 12px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--ink-soft);
+    border-top: 1px solid var(--border);
+    background: var(--bg-soft);
   }
 
   .file-list {
@@ -346,20 +368,22 @@
       <span class="step-num">1</span>
       <h2>Install dependencies</h2>
     </div>
-    <p class="desc">From the <code>automation/</code> folder, install Playwright and download a Chromium browser for it to drive.</p>
+    <p class="desc">From the <code>automation/</code> folder:</p>
     <div class="code-wrap">
-      <pre><span class="c"># from inside automation/</span>
-npm install
-npx playwright install chromium</pre>
-      <button class="copy-btn" data-copy="npm install
-npx playwright install chromium">Copy</button>
+      <pre>npm install</pre>
+      <button class="copy-btn" data-copy="npm install">Copy</button>
     </div>
+    <p class="desc">These scripts automatically drive your <strong>Microsoft Edge</strong> browser.</p>
+    <span class="tag">Windows / macOS</span>
+    <p class="desc">Edge is already installed — nothing else to do.</p>
     <span class="tag">Linux / WSL only</span>
+    <p class="desc">Install Edge and its system libraries first:</p>
     <div class="code-wrap">
-      <pre>sudo npx playwright install-deps chromium</pre>
-      <button class="copy-btn" data-copy="sudo npx playwright install-deps chromium">Copy</button>
+      <pre>npx playwright install msedge
+sudo npx playwright install-deps msedge</pre>
+      <button class="copy-btn" data-copy="npx playwright install msedge
+sudo npx playwright install-deps msedge">Copy</button>
     </div>
-    <p class="desc" style="margin-top:14px;">Windows and macOS don't need this step.</p>
   </div>
 
   <div class="step">
@@ -367,7 +391,7 @@ npx playwright install chromium">Copy</button>
       <span class="step-num">2</span>
       <h2>Log in once</h2>
     </div>
-    <p class="desc">Opens a real browser window to discountingcashflows.com and waits for you to log in.</p>
+    <p class="desc">From inside <code>automation/</code>, opens a real browser window to discountingcashflows.com and waits for you to log in.</p>
     <div class="code-wrap">
       <pre>node login.js</pre>
       <button class="copy-btn" data-copy="node login.js">Copy</button>
@@ -383,7 +407,12 @@ npx playwright install chromium">Copy</button>
       <span class="step-num">3</span>
       <h2>Run a model</h2>
     </div>
-    <p class="desc">Point it at either model's <code>main.py</code> and a ticker. A window opens, pastes in your code, runs it, and leaves the result sitting on the <strong>Preview</strong> tab for you to look at.</p>
+    <p class="desc">Still from inside <code>automation/</code>, point it at either model's <code>main.py</code> and a ticker. A window opens, pastes in your code, runs it, and leaves the result sitting on the <strong>Preview</strong> tab for you to look at.</p>
+    <div class="code-wrap">
+      <pre>node run-model.js <span class="s">"&lt;path-to-main.py&gt;"</span> <span class="f">&lt;TICKER&gt;</span></pre>
+      <button class="copy-btn" data-copy='node run-model.js "<path-to-main.py>" <TICKER>'>Copy</button>
+    </div>
+    <p class="desc">Examples:</p>
     <div class="code-wrap">
       <pre>node run-model.js <span class="s">"../Data Tables/main.py"</span> AAPL
 node run-model.js <span class="s">"../Forecasting Model/main.py"</span> NVDA</pre>
@@ -391,6 +420,16 @@ node run-model.js <span class="s">"../Forecasting Model/main.py"</span> NVDA</pr
 node run-model.js "../Forecasting Model/main.py" NVDA'>Copy</button>
     </div>
     <p class="desc">Close the browser window yourself whenever you're done — nothing else to run.</p>
+    <div class="examples">
+      <figure>
+        <img src="images/DataTable.png" alt="Data Tables example output" loading="lazy">
+        <figcaption>Data Tables</figcaption>
+      </figure>
+      <figure>
+        <img src="images/Forecast.png" alt="Forecasting Model example output" loading="lazy">
+        <figcaption>Forecasting Model</figcaption>
+      </figure>
+    </div>
   </div>
 
   <div class="step">
@@ -398,7 +437,7 @@ node run-model.js "../Forecasting Model/main.py" NVDA'>Copy</button>
       <span class="step-num">4</span>
       <h2>Optional: keep a record</h2>
     </div>
-    <p class="desc">Add the <code>--save</code> flag to also write the result to disk, in addition to showing it in the browser.</p>
+    <p class="desc">Same command, run from <code>automation/</code> — add the <code>--save</code> flag to also write the result to disk, in addition to showing it in the browser.</p>
     <div class="code-wrap">
       <pre>node run-model.js <span class="s">"../Data Tables/main.py"</span> AAPL <span class="f">--save</span></pre>
       <button class="copy-btn" data-copy='node run-model.js "../Data Tables/main.py" AAPL --save'>Copy</button>
